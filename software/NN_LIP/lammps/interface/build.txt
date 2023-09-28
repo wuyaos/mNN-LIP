@@ -1,0 +1,17 @@
+1.下载LibTorch并解压到lammps根目录，拷贝scr到lammps根目录
+2.修改CMakeList.txt:
+SET(CMAKE_PREFIX_PATH    ${LAMMPS_DIR}/libtorch)   # 添加libtorch链接
+find_package(Torch REQUIRED)   # 添加找到Torch的路径
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+target_link_libraries(lammps PRIVATE "${TORCH_LIBRARIES}")   # 添加链接库
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)  # Libtorch是基于C++14来实现的
+3.编译
+mkdir build & cd build
+cmake ../cmake  -DCMAKE_CXX_STANDARD=14 -D PKG_NNLIP=yes -C ../cmake/presets/basic.cmake
+cmake --build .  -j $(nproc) 
+# 注意：对gcc有版本要求，可以
+4.编译成python包
+cmake ../cmake  -DCMAKE_CXX_STANDARD=14 -D PKG_NNLIP=yes -DLAMMPS_EXCEPTIONS=yes -DBUILD_LIB=yes -DBUILD_SHARED_LIBS=yes  -C ../cmake/presets/basic.cmake
+cmake . -DPYTHON_EXECUTABLE=/data3/home/ffwu/anaconda3/bin/python3.9
+cmake --build .  -j $(nproc) 
+make install-python

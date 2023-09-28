@@ -1,0 +1,21 @@
+# LIP
+matplotlib
+scipy
+sympy
+h5py
+
+# NN
+torch
+tqdm
+numpy
+pathlib
+ase
+joblib
+opt_einsum
+#torch4keras
+git+https://github.com/wuyaos/torch4keras.git
+ruamel.yaml
+tensorboard
+torchinfo
+torch_optimizer
+accelerate
